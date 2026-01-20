@@ -1,0 +1,63 @@
+{
+  "schemaVersion": "nexgen-quiz.v1",
+  "title": "Intro to Circuits",
+  "description": "5 question multiple choice quiz for Years 7-10.",
+  "topic": "Circuits",
+  "tags": ["electronics", "voltage", "current"],
+  "yearLevel": { "min": 7, "max": 10 },
+  "settings": {
+    "questionCount": 5,
+    "choicesPerQuestion": 4,
+    "shuffleAnswers": false,
+    "timeLimitMinutes": 6,
+    "allowedAttempts": 1
+  },
+  "questions": [
+    {
+      "id": "Q1",
+      "type": "multiple_choice",
+      "prompt": "Which unit is used to measure electrical voltage?",
+      "choices": ["Amps", "Watts", "Volts", "Ohms"],
+      "correctIndex": 2,
+      "difficulty": "easy",
+      "explanation": "Voltage is measured in volts (V)."
+    },
+    {
+      "id": "Q2",
+      "type": "multiple_choice",
+      "prompt": "What does a resistor do in a circuit?",
+      "choices": ["Stores charge", "Limits current", "Creates light", "Generates electricity"],
+      "correctIndex": 1,
+      "difficulty": "easy"
+    },
+    {
+      "id": "Q3",
+      "type": "multiple_choice",
+      "prompt": "A circuit needs a complete loop to work. What is this usually called?",
+      "choices": ["An open circuit", "A closed circuit", "A short file", "A logic gate"],
+      "correctIndex": 1,
+      "difficulty": "medium"
+    },
+    {
+      "id": "Q4",
+      "type": "multiple_choice",
+      "prompt": "Which component is most commonly used as an input in a microcontroller project?",
+      "choices": ["Buzzer", "Motor", "Button", "LED strip"],
+      "correctIndex": 2,
+      "difficulty": "easy"
+    },
+    {
+      "id": "Q5",
+      "type": "multiple_choice",
+      "prompt": "If you increase resistance in a simple circuit while voltage stays the same, current will usually:",
+      "choices": ["Increase", "Decrease", "Stay the same", "Turn into heat only"],
+      "correctIndex": 1,
+      "difficulty": "hard"
+    }
+  ],
+  "source": {
+    "prompt": "Create a 5 question multiple choice quiz about circuits for Years 7-10. 4 options each. Provide explanations.",
+    "generator": "quiz-agent",
+    "generatedAtUtc": "2026-01-19T00:00:00Z"
+  }
+}
