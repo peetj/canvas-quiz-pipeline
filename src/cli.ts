@@ -56,6 +56,16 @@ program.command("create")
       await client.addQuizQuestion(courseId, created.id, q);
     }
 
+    if (mapped.canvasQuiz.published === false) {
+      try {
+        await client.updateQuiz(courseId, created.id, { published: true });
+        await client.updateQuiz(courseId, created.id, { published: false });
+      } catch (err) {
+        const message = err instanceof Error ? err.message : String(err);
+        console.warn(`Warning: unable to refresh quiz question count. You can publish/unpublish manually. ${message}`);
+      }
+    }
+
     const urlGuess = created.html_url ?? `${env.canvasBaseUrl}/courses/${courseId}/quizzes/${created.id}`;
     console.log(`Created quiz id: ${created.id}`);
     console.log(`Quiz URL: ${urlGuess}`);
