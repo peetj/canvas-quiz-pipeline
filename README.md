@@ -20,5 +20,26 @@ npm run dev -- create --from-file examples/nexgen-quiz.example.json --dry-run
 ## Upload the example JSON to Canvas
 npm run dev -- create --from-file examples/nexgen-quiz.example.json
 
+## Generate a quiz via agent and upload to Canvas
+1. Set `QUIZ_AGENT_URL` in `.env` (and `QUIZ_AGENT_API_KEY` if required).
+2. Run the CLI with `--prompt`:
+   npm run dev -- create --prompt "Year 9 chemistry: acids and bases" --course-id 12345
+3. Optional dry run (no upload):
+   npm run dev -- create --prompt "Year 9 chemistry: acids and bases" --course-id 12345 --dry-run
+
 ## Later
 - Add agent integration: --prompt "..." will call the Cloudflare quiz agent.
+
+## Creating and Uploading the Repository to Github
+git init
+git status
+git add -A
+git commit -m "Fix schema validation and JSON import"
+git branch -M main
+git remote add origin https://github.com/YOUR_GITHUB_USERNAME/REPO_NAME.git
+git push -u origin main
+
+
+If you need to login to your repo (assuming you have the github cli installed)
+
+gh auth login
