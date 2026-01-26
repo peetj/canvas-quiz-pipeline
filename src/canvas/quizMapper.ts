@@ -13,7 +13,7 @@ export function mapToCanvasQuiz(quiz: NexgenQuizV1): {
     question_text: string;
     question_type: "multiple_choice_question";
     points_possible: number;
-    answers: Array<{ text: string; weight?: number }>;
+    answers: Array<{ answer_text: string; answer_weight: number }>;
   }>;
 } {
   const canvasQuiz = {
@@ -26,9 +26,10 @@ export function mapToCanvasQuiz(quiz: NexgenQuizV1): {
 
   const canvasQuestions = quiz.questions.map((q) => {
     const answers = q.choices.map((text, idx) => {
-      return idx === q.correctIndex
-        ? { text, weight: 100 }
-        : { text };
+      return {
+        answer_text: text,
+        answer_weight: idx === q.correctIndex ? 100 : 0
+      };
     });
 
     return {

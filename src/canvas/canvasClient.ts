@@ -55,4 +55,12 @@ export class CanvasClient {
       body: { question }
     });
   }
+
+  async updateQuiz(courseId: number, quizId: number, quiz: { published?: boolean }): Promise<{ id: number; published?: boolean; question_count?: number }> {
+    return this.request({
+      method: "PUT",
+      path: `/api/v1/courses/${courseId}/quizzes/${quizId}`,
+      body: { quiz }
+    });
+  }
 }
