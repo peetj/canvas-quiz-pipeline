@@ -1,0 +1,75 @@
+{
+  "schemaVersion": "nexgen-quiz.v1",
+  "title": "LCD Screen and 3x4 Matrix Keypad with NodeMCU ESP32",
+  "description": "Basics of wiring and using an I2C LCD and a 3x4 matrix keypad with a NodeMCU ESP32.",
+  "topic": "LCD Screen and 3x4 Matrix Keypad",
+  "tags": ["esp32", "node mcu", "i2c", "lcd", "matrix keypad", "embedded systems"],
+  "yearLevel": { "min": 7, "max": 10 },
+  "settings": {
+    "questionCount": 5,
+    "choicesPerQuestion": 4,
+    "allowedAttempts": 1
+  },
+  "questions": [
+    {
+      "id": "Q1",
+      "type": "multiple_choice",
+      "prompt": "Which two signal lines are used by an I2C LCD to communicate with the ESP32?",
+      "choices": ["SDA and SCL", "TX and RX", "MOSI and MISO", "VCC and GND"],
+      "correctIndex": 0,
+      "explanation": "I2C uses two lines: SDA (data) and SCL (clock)."
+    },
+    {
+      "id": "Q2",
+      "type": "multiple_choice",
+      "prompt": "A 3x4 matrix keypad has 7 pins because it is wired as:",
+      "choices": ["4 rows and 3 columns", "3 rows and 4 columns", "7 separate buttons", "1 row and 6 columns"],
+      "correctIndex": 0,
+      "explanation": "A 3x4 keypad has 4 row lines and 3 column lines, totaling 7 pins."
+    },
+    {
+      "id": "Q3",
+      "type": "multiple_choice",
+      "prompt": "How do you typically detect which key is pressed on a matrix keypad?",
+      "choices": [
+        "Scan rows one at a time and read the columns",
+        "Measure resistance on each pin",
+        "Use an I2C address to read key values",
+        "Power each key with a separate battery"
+      ],
+      "correctIndex": 0,
+      "explanation": "Matrix keypads are scanned by driving rows and reading columns to find the intersection."
+    },
+    {
+      "id": "Q4",
+      "type": "multiple_choice",
+      "prompt": "Why is key debouncing needed when reading a keypad?",
+      "choices": [
+        "To prevent multiple false presses from a single physical press",
+        "To increase the ESP32 clock speed",
+        "To make the LCD brighter",
+        "To reduce I2C addresses"
+      ],
+      "correctIndex": 0,
+      "explanation": "Mechanical keys can bounce, causing multiple rapid on/off signals."
+    },
+    {
+      "id": "Q5",
+      "type": "multiple_choice",
+      "prompt": "Which statement about ESP32 logic levels is safest when wiring peripherals?",
+      "choices": [
+        "ESP32 uses 3.3V logic, so avoid feeding 5V signals directly to GPIO",
+        "ESP32 GPIO pins always require 5V to work",
+        "ESP32 only supports analog signals",
+        "ESP32 GPIO pins are 12V tolerant"
+      ],
+      "correctIndex": 0,
+      "explanation": "ESP32 GPIOs are 3.3V logic. Feeding higher voltages can damage the chip."
+    }
+  ],
+  "source": {
+    "prompt": "LCD Screen and 3x4 Matrix Keypad with NodeMCU ESP32",
+    "generator": "manual",
+    "generatedAtUtc": "2026-02-04T00:00:00Z"
+  }
+}

@@ -1,6 +1,6 @@
 import Ajv2020 from "ajv/dist/2020.js";
 import addFormats from "ajv-formats";
-import schema from "../../schemas/nexgen-quiz.v1.schema.json" with { type: "json" };
+import schema from "../../../schemas/nexgen-quiz.v1.schema.json" with { type: "json" };
 import type { NexgenQuizV1 } from "../types.js";
 
 const ajv = new Ajv2020({

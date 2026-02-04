@@ -1,0 +1,20 @@
+{
+  "quiz": {
+    "schemaVersion": "nexgen-quiz.v1",
+    "defaults": {
+      "questionCount": 5,
+      "choicesPerQuestion": 4,
+      "allowedAttempts": 1
+    }
+  },
+  "sessions": {
+    "sessionNumberPad": 2,
+    "headersTemplate": [
+      "Teachers Notes",
+      "QUIZ",
+      "Session {nn}: Task A",
+      "Session {nn}: Task B",
+      "Session {nn}: Task C"
+    ]
+  }
+}

@@ -1,10 +1,12 @@
 import { Command } from "commander";
 import fs from "node:fs/promises";
 import { env } from "./env.js";
-import { validateNexgenQuiz } from "./schema/validate.js";
+import { validateNexgenQuiz } from "./quiz/schema/validate.js";
 import { CanvasClient } from "./canvas/canvasClient.js";
-import { mapToCanvasQuiz } from "./canvas/quizMapper.js";
-import { generateQuizFromAgent } from "./agent/quizAgentClient.js";
+import { mapToCanvasQuiz } from "./quiz/quizMapper.js";
+import { generateQuizFromAgent } from "./agent/quiz/quizAgentClient.js";
+import { buildSessionHeaderTitles, resolveModuleByName } from "./session/sessionHeaders.js";
+import { loadConfig } from "./config.js";
 
 const program = new Command();
 
@@ -69,6 +71,45 @@ program.command("create")
     const urlGuess = created.html_url ?? `${env.canvasBaseUrl}/courses/${courseId}/quizzes/${created.id}`;
     console.log(`Created quiz id: ${created.id}`);
     console.log(`Quiz URL: ${urlGuess}`);
+  });
+
+program.command("session-headers")
+  .description("Create session text headers inside an existing Canvas module.")
+  .requiredOption("--module-name <name>", "Canvas module name to add headers to")
+  .requiredOption("--session <number>", "Session number (e.g. 1 for Session 01)")
+  .option("--course-id <id>", "Canvas course id to use", String(env.canvasTestCourseId))
+  .option("--dry-run", "Show headers without creating them", false)
+  .action(async (opts) => {
+    const courseId = Number(opts.courseId);
+    if (!Number.isFinite(courseId)) {
+      throw new Error("Invalid --course-id. Provide a numeric Canvas course id.");
+    }
+
+    const sessionNumber = Number(opts.session);
+    const config = await loadConfig();
+    const headers = buildSessionHeaderTitles(sessionNumber, config.sessions);
+    const moduleName = String(opts.moduleName);
+
+    const client = new CanvasClient();
+    const module = await resolveModuleByName(client, courseId, moduleName);
+
+    console.log(`Module: ${module.name} (${module.id})`);
+    console.log(`Session: ${String(sessionNumber).padStart(2, "0")}`);
+    console.log("Headers:");
+    for (const title of headers) {
+      console.log(`- ${title}`);
+    }
+
+    if (opts.dryRun) {
+      console.log("Dry run: no module items created.");
+      return;
+    }
+
+    for (const title of headers) {
+      await client.createModuleSubHeader(courseId, module.id, title);
+    }
+
+    console.log("Session headers created.");
   });
 
 program.parseAsync(process.argv).catch((err) => {

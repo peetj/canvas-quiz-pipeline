@@ -1,4 +1,4 @@
-import { env } from "../env.js";
+import { env } from "../../env.js";
 
 export async function generateQuizFromAgent(prompt: string): Promise<unknown> {
   if (!env.quizAgentUrl) {

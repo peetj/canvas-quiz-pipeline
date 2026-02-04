@@ -1,4 +1,4 @@
-import type { NexgenQuizV1 } from "../types.js";
+import type { NexgenQuizV1 } from "./types.js";
 
 export function mapToCanvasQuiz(quiz: NexgenQuizV1): {
   canvasQuiz: {

@@ -63,4 +63,32 @@ export class CanvasClient {
       body: { quiz }
     });
   }
+
+  async listModules(courseId: number, searchTerm?: string): Promise<Array<{ id: number; name: string }>> {
+    const params = new URLSearchParams({ per_page: "100" });
+    if (searchTerm && searchTerm.trim().length > 0) {
+      params.set("search_term", searchTerm.trim());
+    }
+    return this.request({
+      method: "GET",
+      path: `/api/v1/courses/${courseId}/modules?${params.toString()}`
+    });
+  }
+
+  async createModuleSubHeader(
+    courseId: number,
+    moduleId: number,
+    title: string
+  ): Promise<{ id: number; title: string }> {
+    return this.request({
+      method: "POST",
+      path: `/api/v1/courses/${courseId}/modules/${moduleId}/items`,
+      body: {
+        module_item: {
+          title,
+          type: "SubHeader"
+        }
+      }
+    });
+  }
 }
