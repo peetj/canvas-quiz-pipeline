@@ -1,10 +1,10 @@
 {
-  "name": "canvas-pipeline",
+  "name": "nexgen-canvas-pipeline",
   "version": "0.1.0",
   "private": true,
   "type": "module",
   "bin": {
-    "nexgen-quiz": "dist/cli.js"
+    "nexgen-canvas": "dist/cli.js"
   },
   "scripts": {
     "dev": "tsx src/cli.ts",

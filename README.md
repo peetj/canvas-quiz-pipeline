@@ -1,4 +1,4 @@
-# Canvas Pipeline
+# Nexgen Canvas Pipeline
 
 This repo hosts Canvas automations. It currently generates and uploads Nexgen-style multiple choice quizzes into Canvas using the Canvas API.
 
@@ -15,7 +15,7 @@ This repo hosts Canvas automations. It currently generates and uploads Nexgen-st
    npm install
 
 ## Repo layout
-- `config/canvas-pipeline.config.json`: central config for quiz/session defaults
+- `config/nexgen-canvas-pipeline.config.json`: central config for quiz/session defaults
 - `src/quiz`: quiz automation logic (schema validation, mapping, and CLI wiring)
 - `src/session`: session setup automation (module headers)
 - `src/agent/quiz`: quiz agent client used by the CLI
@@ -43,7 +43,7 @@ Optional dry run (no upload):
 npm run dev -- session-headers --course-id 12345 --module-name "Term 1 - Module" --session 1 --dry-run
 
 ## Config
-All non-secret settings live in `config/canvas-pipeline.config.json`. For session headers, edit
+All non-secret settings live in `config/nexgen-canvas-pipeline.config.json`. For session headers, edit
 `sessions.headersTemplate`. Use `{nn}` for a zero-padded session number (e.g. 01) and `{n}` for
 the raw session number (e.g. 1).
 
@@ -56,7 +56,7 @@ git status
 git add -A
 git commit -m "Fix schema validation and JSON import"
 git branch -M main
-git remote add origin https://github.com/YOUR_GITHUB_USERNAME/canvas-pipeline.git
+git remote add origin https://github.com/YOUR_GITHUB_USERNAME/nexgen-canvas-pipeline.git
 git push -u origin main
 
 

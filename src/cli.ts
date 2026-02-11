@@ -11,8 +11,8 @@ import { loadConfig } from "./config.js";
 const program = new Command();
 
 program
-  .name("nexgen-quiz")
-  .description("Generate Nexgen quizzes and upload to Canvas.")
+  .name("nexgen-canvas")
+  .description("Run Nexgen Canvas automation workflows.")
   .version("0.1.0");
 
 program.command("create")

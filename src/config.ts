@@ -58,7 +58,7 @@ function mergeConfig(input: Partial<PipelineConfig>): PipelineConfig {
 }
 
 export async function loadConfig(): Promise<PipelineConfig> {
-  const configPath = path.resolve(process.cwd(), "config", "canvas-pipeline.config.json");
+  const configPath = path.resolve(process.cwd(), "config", "nexgen-canvas-pipeline.config.json");
   try {
     const raw = await fs.readFile(configPath, "utf8");
     const parsed = JSON.parse(raw) as Partial<PipelineConfig>;
