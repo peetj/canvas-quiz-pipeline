@@ -6,6 +6,27 @@ type FetchOptions = {
   body?: unknown;
 };
 
+export type CanvasModuleSummary = {
+  id: number;
+  name: string;
+};
+
+export type CanvasModuleItem = {
+  id: number;
+  title: string;
+  type: string;
+  position: number;
+  page_url?: string | null;
+};
+
+export type CanvasPage = {
+  page_id: number;
+  url: string;
+  title: string;
+  body?: string;
+  published?: boolean;
+};
+
 export class CanvasClient {
   private baseUrl: string;
   private token: string;
@@ -64,7 +85,7 @@ export class CanvasClient {
     });
   }
 
-  async listModules(courseId: number, searchTerm?: string): Promise<Array<{ id: number; name: string }>> {
+  async listModules(courseId: number, searchTerm?: string): Promise<CanvasModuleSummary[]> {
     const params = new URLSearchParams({ per_page: "100" });
     if (searchTerm && searchTerm.trim().length > 0) {
       params.set("search_term", searchTerm.trim());
@@ -72,6 +93,60 @@ export class CanvasClient {
     return this.request({
       method: "GET",
       path: `/api/v1/courses/${courseId}/modules?${params.toString()}`
+    });
+  }
+
+  async listModuleItems(courseId: number, moduleId: number): Promise<CanvasModuleItem[]> {
+    return this.request({
+      method: "GET",
+      path: `/api/v1/courses/${courseId}/modules/${moduleId}/items?per_page=100`
+    });
+  }
+
+  async listPages(courseId: number, searchTerm?: string): Promise<CanvasPage[]> {
+    const params = new URLSearchParams({ per_page: "100" });
+    if (searchTerm && searchTerm.trim().length > 0) {
+      params.set("search_term", searchTerm.trim());
+    }
+    return this.request({
+      method: "GET",
+      path: `/api/v1/courses/${courseId}/pages?${params.toString()}`
+    });
+  }
+
+  async getPage(courseId: number, pageUrl: string): Promise<CanvasPage> {
+    return this.request({
+      method: "GET",
+      path: `/api/v1/courses/${courseId}/pages/${encodeURIComponent(pageUrl)}`
+    });
+  }
+
+  async createPage(
+    courseId: number,
+    input: { title: string; body: string; published?: boolean }
+  ): Promise<CanvasPage> {
+    return this.request({
+      method: "POST",
+      path: `/api/v1/courses/${courseId}/pages`,
+      body: {
+        wiki_page: {
+          title: input.title,
+          body: input.body,
+          published: input.published ?? true
+        }
+      }
+    });
+  }
+
+  async updatePage(
+    courseId: number,
+    pageUrl: string,
+    input: { title?: string; body?: string; published?: boolean }
+  ): Promise<CanvasPage> {
+    return this.request({
+      method: "PUT",
+      path: `/api/v1/courses/${courseId}/pages/${encodeURIComponent(pageUrl)}`,
+      body: { wiki_page: input }
     });
   }
 
@@ -89,6 +164,38 @@ export class CanvasClient {
           type: "SubHeader"
         }
       }
+    });
+  }
+
+  async createModulePageItem(
+    courseId: number,
+    moduleId: number,
+    input: { title?: string; pageUrl: string; position?: number }
+  ): Promise<{ id: number; title: string; position: number; page_url?: string }> {
+    return this.request({
+      method: "POST",
+      path: `/api/v1/courses/${courseId}/modules/${moduleId}/items`,
+      body: {
+        module_item: {
+          type: "Page",
+          title: input.title,
+          page_url: input.pageUrl,
+          position: input.position
+        }
+      }
+    });
+  }
+
+  async updateModuleItemPosition(
+    courseId: number,
+    moduleId: number,
+    itemId: number,
+    position: number
+  ): Promise<{ id: number; title: string; position: number }> {
+    return this.request({
+      method: "PUT",
+      path: `/api/v1/courses/${courseId}/modules/${moduleId}/items/${itemId}`,
+      body: { module_item: { position } }
     });
   }
 }

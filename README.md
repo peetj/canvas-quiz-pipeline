@@ -22,25 +22,38 @@ This repo hosts Canvas automations. It currently generates and uploads Nexgen-st
 - `agent/src/quiz`: Cloudflare quiz agent worker
 
 ## Try it (dry run from example JSON)
-npm run dev -- create --from-file examples/nexgen-quiz.example.json --dry-run
+npm run dev -- create -- --from-file examples/nexgen-quiz.example.json --dry-run
 
 ## Upload the example JSON to Canvas
-npm run dev -- create --from-file examples/nexgen-quiz.example.json
+npm run dev -- create -- --from-file examples/nexgen-quiz.example.json
 
 ## Generate a quiz via agent and upload to Canvas
 1. Set `QUIZ_AGENT_URL` in `.env` (and `QUIZ_AGENT_API_KEY` if required).
 2. Run the CLI with `--prompt`:
-   npm run dev -- create --prompt "Year 9 chemistry: acids and bases" --course-id 12345
+   npm run dev -- create -- --prompt "Year 9 chemistry: acids and bases" --course-id 12345
 3. Optional dry run (no upload):
-   npm run dev -- create --prompt "Year 9 chemistry: acids and bases" --course-id 12345 --dry-run
+   npm run dev -- create -- --prompt "Year 9 chemistry: acids and bases" --course-id 12345 --dry-run
 
 ## Create session headers in an existing module
 Create the standard set of text headers for a specific session number in a module.
 
-npm run dev -- session-headers --course-id 12345 --module-name "Term 1 - Module" --session 1
+npm run dev -- session-headers -- --course-id 12345 --module-name "Term 1 - Module" --session 1
 
 Optional dry run (no upload):
-npm run dev -- session-headers --course-id 12345 --module-name "Term 1 - Module" --session 1 --dry-run
+npm run dev -- session-headers -- --course-id 12345 --module-name "Term 1 - Module" --session 1 --dry-run
+
+## Generate and insert Teacher Notes for a session module
+Build canonical-style Teacher Notes HTML from all page content in a session module, then create/update a Canvas page and place it at the top of that session.
+
+npm run dev -- teacher-notes -- --course-id 21 --session-name "Session 03 - The LCD Screen & 3x4 Matrix Keypad" --page-title "Teacher Notes - Session 03: The LCD Screen & 3x4 Matrix Keypad"
+
+Draft-first workflow (recommended):
+npm run dev -- teacher-notes -- --course-id 21 --session-name "Session 03 - The LCD Screen & 3x4 Matrix Keypad" --page-title "The LCD Screen & 3x4 Matrix Keypad" --draft
+
+In draft mode, the command writes/updates `(<Draft>)` page content and does not change live module placement.
+
+Optional dry run (preview only):
+npm run dev -- teacher-notes -- --course-id 21 --session-name "Session 03 - The LCD Screen & 3x4 Matrix Keypad" --page-title "Teacher Notes - Session 03: The LCD Screen & 3x4 Matrix Keypad" --dry-run
 
 ## Config
 All non-secret settings live in `config/nexgen-canvas-pipeline.config.json`. For session headers, edit
