@@ -15,14 +15,14 @@ This repo hosts Canvas automations. It currently generates and uploads Nexgen-st
    npm install
 
 ## Repo layout
-- `config/nexgen-canvas-pipeline.config.json`: central config for quiz/session defaults
-- `src/quiz`: quiz automation logic (schema validation, mapping, and CLI wiring)
-- `src/session`: session setup automation (module headers)
-- `src/agent/quiz`: quiz agent client used by the CLI
+- `apps/cli`: Canvas automation CLI app (quiz/session/teacher-notes commands)
+- `apps/cli/config/nexgen-canvas-pipeline.config.json`: CLI config defaults
+- `apps/cli/examples`: example quiz payloads
+- `packages/canvas-sdk`: shared Canvas API client and types
 - `agent/src/quiz`: Cloudflare quiz agent worker
 
 ## Config
-All non-secret settings live in `config/nexgen-canvas-pipeline.config.json`. For session headers, edit
+All non-secret settings live in `apps/cli/config/nexgen-canvas-pipeline.config.json`. For session headers, edit
 `sessions.headersTemplate`. Use `{nn}` for a zero-padded session number (e.g. 01) and `{n}` for
 the raw session number (e.g. 1).
 
@@ -47,9 +47,11 @@ gh auth login
 Use either invocation style:
 
 1. Direct (most reliable across shells):
-`npx tsx src/cli.ts <command> [options]`
+`npx tsx apps/cli/src/cli.ts <command> [options]`
+Run once before direct mode (or whenever `packages/canvas-sdk/src` changes):
+`npm run -w @nexgen/canvas-sdk build`
 2. npm script wrapper:
-`npm run dev -- <command> [options]`
+`npm run dev -- <command> -- [options]`
 
 ### Command: `create`
 Create a quiz in Canvas from a JSON file or from an agent prompt.
@@ -65,9 +67,12 @@ Rules:
 
 Examples:
 ```bash
-npx tsx src/cli.ts create --from-file examples/nexgen-quiz.example.json --dry-run
-npx tsx src/cli.ts create --from-file examples/nexgen-quiz.example.json
-npx tsx src/cli.ts create --prompt "Year 9 chemistry: acids and bases" --course-id 12345 --dry-run
+npx tsx apps/cli/src/cli.ts create --from-file apps/cli/examples/nexgen-quiz.example.json --dry-run
+npx tsx apps/cli/src/cli.ts create --from-file apps/cli/examples/nexgen-quiz.example.json
+npx tsx apps/cli/src/cli.ts create --prompt "Year 9 chemistry: acids and bases" --course-id 12345 --dry-run
+
+# npm wrapper form
+npm run dev -- create -- --from-file apps/cli/examples/nexgen-quiz.example.json --dry-run
 ```
 
 ### Command: `session-headers`
@@ -81,7 +86,10 @@ Options:
 
 Example:
 ```bash
-npx tsx src/cli.ts session-headers --course-id 12345 --module-name "Term 1 - Module" --session 1 --dry-run
+npx tsx apps/cli/src/cli.ts session-headers --course-id 12345 --module-name "Term 1 - Module" --session 1 --dry-run
+
+# npm wrapper form
+npm run dev -- session-headers -- --course-id 12345 --module-name "Term 1 - Module" --session 1 --dry-run
 ```
 
 ### Command: `teacher-notes`
@@ -107,11 +115,14 @@ Draft mode behavior:
 Examples:
 ```bash
 # Draft iteration
-npx tsx src/cli.ts teacher-notes --course-id 21 --session-name "Session 03 - The LCD Screen & 3x4 Matrix Keypad" --page-title "The LCD Screen & 3x4 Matrix Keypad" --draft
+npx tsx apps/cli/src/cli.ts teacher-notes --course-id 21 --session-name "Session 03 - The LCD Screen & 3x4 Matrix Keypad" --page-title "The LCD Screen & 3x4 Matrix Keypad" --draft
 
 # Draft preview only
-npx tsx src/cli.ts teacher-notes --course-id 21 --session-name "Session 03 - The LCD Screen & 3x4 Matrix Keypad" --page-title "The LCD Screen & 3x4 Matrix Keypad" --draft --dry-run
+npx tsx apps/cli/src/cli.ts teacher-notes --course-id 21 --session-name "Session 03 - The LCD Screen & 3x4 Matrix Keypad" --page-title "The LCD Screen & 3x4 Matrix Keypad" --draft --dry-run
 
 # Live publish (after draft approval)
-npx tsx src/cli.ts teacher-notes --course-id 21 --session-name "Session 03 - The LCD Screen & 3x4 Matrix Keypad" --page-title "The LCD Screen & 3x4 Matrix Keypad"
+npx tsx apps/cli/src/cli.ts teacher-notes --course-id 21 --session-name "Session 03 - The LCD Screen & 3x4 Matrix Keypad" --page-title "The LCD Screen & 3x4 Matrix Keypad"
+
+# npm wrapper form
+npm run dev -- teacher-notes -- --course-id 21 --session-name "Session 03 - The LCD Screen & 3x4 Matrix Keypad" --page-title "The LCD Screen & 3x4 Matrix Keypad" --draft --dry-run
 ```

@@ -1,5 +1,3 @@
-import { env } from "../env.js";
-
 type FetchOptions = {
   method?: string;
   path: string;
@@ -31,7 +29,7 @@ export class CanvasClient {
   private baseUrl: string;
   private token: string;
 
-  constructor(baseUrl = env.canvasBaseUrl, token = env.canvasApiToken) {
+  constructor(baseUrl: string, token: string) {
     this.baseUrl = baseUrl.replace(/\/+$/, "");
     this.token = token;
   }
@@ -41,7 +39,7 @@ export class CanvasClient {
     const res = await fetch(url, {
       method: opts.method ?? "GET",
       headers: {
-        "Authorization": `Bearer ${this.token}`,
+        Authorization: `Bearer ${this.token}`,
         "Content-Type": "application/json"
       },
       body: opts.body ? JSON.stringify(opts.body) : undefined
@@ -49,19 +47,24 @@ export class CanvasClient {
 
     if (!res.ok) {
       const text = await res.text().catch(() => "");
-      throw new Error(`Canvas API error ${res.status} ${res.statusText} for ${opts.method ?? "GET"} ${opts.path}\n${text}`);
+      throw new Error(
+        `Canvas API error ${res.status} ${res.statusText} for ${opts.method ?? "GET"} ${opts.path}\n${text}`
+      );
     }
 
     return (await res.json()) as T;
   }
 
-  async createQuiz(courseId: number, quiz: {
-    title: string;
-    description?: string;
-    published?: boolean;
-    time_limit?: number;
-    allowed_attempts?: number;
-  }): Promise<{ id: number; html_url?: string; title: string }> {
+  async createQuiz(
+    courseId: number,
+    quiz: {
+      title: string;
+      description?: string;
+      published?: boolean;
+      time_limit?: number;
+      allowed_attempts?: number;
+    }
+  ): Promise<{ id: number; html_url?: string; title: string }> {
     return this.request({
       method: "POST",
       path: `/api/v1/courses/${courseId}/quizzes`,
@@ -77,7 +80,11 @@ export class CanvasClient {
     });
   }
 
-  async updateQuiz(courseId: number, quizId: number, quiz: { published?: boolean }): Promise<{ id: number; published?: boolean; question_count?: number }> {
+  async updateQuiz(
+    courseId: number,
+    quizId: number,
+    quiz: { published?: boolean }
+  ): Promise<{ id: number; published?: boolean; question_count?: number }> {
     return this.request({
       method: "PUT",
       path: `/api/v1/courses/${courseId}/quizzes/${quizId}`,
