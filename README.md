@@ -112,13 +112,13 @@ Rules:
 Examples:
 ```bash
 # Copy Session-01 survey to Session-02..07
-npx tsx apps/cli/src/cli.ts clone-survey --course-id 21 --source-title "Weekly Check-In-Session-01" --range 2-7 --dry-run
+npx tsx apps/cli/src/cli.ts clone-survey --course-id 21 --source-title "Weekly-Check-In-Session-01" --range 2-7 --dry-run
 
 # Custom template and explicit sessions
-npx tsx apps/cli/src/cli.ts clone-survey --course-id 21 --source-title "Weekly Check-In-Session-01" --title-template "Weekly-Check-In-Session-{nn}" --sessions 2,3,4,5,6,7
+npx tsx apps/cli/src/cli.ts clone-survey --course-id 21 --source-title "Weekly-Check-In-Session-01" --title-template "Weekly-Check-In-Session-{nn}" --sessions 2,3,4,5,6,7
 
 # npm wrapper form
-npm run dev -- clone-survey -- --course-id 21 --source-title "Weekly Check-In-Session-01" --range 2-7
+npm run dev -- clone-survey --course-id 21 --source-title "Weekly-Check-In-Session-01" --range 2-7
 ```
 
 ### Command: `teacher-notes`
