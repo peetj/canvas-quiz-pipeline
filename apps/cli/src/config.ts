@@ -30,6 +30,7 @@ const DEFAULT_CONFIG: PipelineConfig = {
     sessionNumberPad: 2,
     headersTemplate: [
       "Teachers Notes",
+      "What we are doing Today",
       "QUIZ",
       "Session {nn}: Task A",
       "Session {nn}: Task B",

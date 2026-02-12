@@ -9,8 +9,10 @@
   ],
   "scripts": {
     "dev": "node scripts/dev-cli.mjs",
-    "build": "npm run -w @nexgen/canvas-sdk build && npm run -w @nexgen/canvas-cli build",
+    "plugins:dev": "npm run -w @nexgen/plugins-runner dev --",
+    "build": "npm run -w @nexgen/canvas-sdk build && npm run -w @nexgen/canvas-cli build && npm run -w @nexgen/plugins-runner build",
     "start": "npm run -w @nexgen/canvas-sdk build && node apps/cli/dist/cli.js",
+    "plugins:start": "npm run -w @nexgen/plugins-runner start --",
     "lint": "npm run -ws --if-present lint"
   }
 }
